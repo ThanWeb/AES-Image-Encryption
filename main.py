@@ -5,9 +5,9 @@ from tkinter import *
 from tkinter import filedialog
 from PIL import Image
 from datetime import datetime
-import io
 import os
 import pyperclip
+import pathlib
 
 def browse_image():
   file_path = filedialog.askopenfilename(filetypes=[("Image files", "*.png *.jpg *.jpeg *.bmp")])
@@ -67,7 +67,8 @@ def encrypt():
   
   key = get_random_bytes(16)
   now = datetime.now()
-  filename = now.strftime("%m%d%Y%H%M%S-encrypted.png")
+  ext = pathlib.Path(input_path).suffix
+  filename = now.strftime("%m%d%Y%H%M%S-encrypted" + ext)
 
   encrypt_image(input_path, filename, key, filename)
   key_hex_label.config(text=key.hex(), fg="black")
@@ -88,7 +89,8 @@ def decrypt():
     return
   
   now = datetime.now()
-  filename = now.strftime("%m%d%Y%H%M%S-decrypted.png")
+  ext = pathlib.Path(input_path).suffix
+  filename = now.strftime("%m%d%Y%H%M%S-decrypted" + ext)
   decrypt_image(input_path, filename, key, filename)
   info_label.config(text="Decryption complete.", fg="green")
 
