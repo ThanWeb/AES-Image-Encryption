@@ -85,6 +85,14 @@ def encrypt():
   copy_key_button.pack(side=TOP)
   info_label.config(text="Encryption complete.", fg="green")
 
+def popup_notification(message, color):
+  popup = Tk()
+  popup.title("Notification")
+  popup.geometry("300x100")
+  label = Label(popup, text=message, fg=color)
+  label.pack(pady=20)
+  popup.mainloop()
+
 def decrypt():
   input_path = entry.get()
   if not input_path:
@@ -100,8 +108,18 @@ def decrypt():
   now = datetime.now()
   ext = pathlib.Path(input_path).suffix
   filename = now.strftime("%m-%d-%Y-%H-%M-%S" + ext)
-  decrypt_image(input_path, filename, key, filename)
-  info_label.config(text="Decryption complete.", fg="green")
+
+  decryption_successful = False
+  try:
+    decrypt_image(input_path, filename, key, filename)
+    decryption_successful = True
+  except ValueError as e:
+    popup_notification("Decryption failed. Incorrect key.", "red")
+  
+  if decryption_successful:
+    popup_notification("Decryption successful.", "green")
+  else:
+    popup_notification("Decryption failed.", "red")
 
 def set_encryption_mode():
   key_label.pack(side=TOP)
