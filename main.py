@@ -140,8 +140,6 @@ def set_encryption_mode():
   entry.delete(0, END)  # Membersihkan kolom input file
   key_entry.delete(0, END)  # Membersihkan kolom input kunci
 
-    
-
 def browse_decrypted_image():
   file_path = filedialog.askopenfilename(filetypes=[("Encrypted Image files", "*.png *.jpg *.jpeg *.bmp")])
   entry.delete(0, END)
@@ -171,14 +169,12 @@ def start_encryption_mode():
   key_entry.delete(0, END)  # Membersihkan kolom input kunci
   root.config(menu=None)
     
-
 def start_decryption_mode():
   set_decryption_mode()
   entry.delete(0, END)  # Membersihkan kolom input file
   key_entry.delete(0, END)  # Membersihkan kolom input kunci
   root.config(menu=None)
     
-
 menu = Menu(root)
 root.config(menu=menu)
 
