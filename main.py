@@ -64,8 +64,18 @@ def encrypt():
   if not input_path:
     info_label.config(text="Please select an image file.", fg="red")
     return
-  
-  key = get_random_bytes(16)
+
+  encryption_key = key_entry.get()
+  if not encryption_key:
+    info_label.config(text="Please enter an encryption key.", fg="red")
+    return
+
+  # Ubah kunci yang dimasukkan menjadi bytes
+  key = bytes.fromhex(encryption_key)
+  if len(key) != 16:
+    info_label.config(text="Please enter a valid 128-bit key in hexadecimal format.", fg="red")
+    return
+
   now = datetime.now()
   ext = pathlib.Path(input_path).suffix
   filename = now.strftime("%m%d%Y%H%M%S-encrypted" + ext)
@@ -74,7 +84,6 @@ def encrypt():
   key_hex_label.config(text=key.hex(), fg="black")
   copy_key_button.pack(side=TOP)
   info_label.config(text="Encryption complete.", fg="green")
-    
 
 def decrypt():
   input_path = entry.get()
@@ -95,8 +104,12 @@ def decrypt():
   info_label.config(text="Decryption complete.", fg="green")
 
 def set_encryption_mode():
-  key_label.pack_forget()
-  key_entry.pack_forget()
+  key_label.pack(side=TOP)
+  key_entry.pack(side=TOP)
+  
+  # Hapus elemen-elemen yang tidak dibutuhkan pada mode enkripsi
+  filename_label.pack_forget()
+  filename_entry.pack_forget()
   decrypt_button.pack_forget()
 
   if copy_key_button.winfo_exists():
@@ -106,6 +119,9 @@ def set_encryption_mode():
   browse_button.pack(side=TOP)
   info_label.pack(side=TOP)
   key_hex_label.pack(side=TOP)
+  entry.delete(0, END)  # Membersihkan kolom input file
+  key_entry.delete(0, END)  # Membersihkan kolom input kunci
+
     
 
 def browse_decrypted_image():
@@ -124,19 +140,24 @@ def set_decryption_mode():
   key_label.pack(side=TOP)
   key_entry.pack(side=TOP)
   decrypt_button.pack(side=TOP)
+  entry.delete(0, END)  # Membersihkan kolom input file
+  key_entry.delete(0, END)  # Membersihkan kolom input kunci
 
 root = Tk()
-root.title("Image Encryption and Decryption")
+root.title("Aplikasi Keamanan Kartu Mahasiswa")
 root.configure(bg='lightblue')
 
 def start_encryption_mode():
   set_encryption_mode()
-  copy_key_button.pack_forget()
+  entry.delete(0, END)  # Membersihkan kolom input file
+  key_entry.delete(0, END)  # Membersihkan kolom input kunci
   root.config(menu=None)
     
 
 def start_decryption_mode():
   set_decryption_mode()
+  entry.delete(0, END)  # Membersihkan kolom input file
+  key_entry.delete(0, END)  # Membersihkan kolom input kunci
   root.config(menu=None)
     
 
@@ -160,6 +181,10 @@ browse_button.pack()
 filename_label = Label(root, text="Enter the output filename:", bg='lightblue', fg='black')
 
 filename_entry = Entry(root, bg='white', fg='black', width=40)
+
+key_label = Label(root, text="Enter the encryption key:", bg='lightblue', fg='black')
+
+key_entry = Entry(root, bg='white', fg='black', width=40)
 
 encrypt_button = Button(root, text="Encrypt", command=encrypt, bg='green', fg='white')
 
