@@ -78,7 +78,7 @@ def encrypt():
 
   now = datetime.now()
   ext = pathlib.Path(input_path).suffix
-  filename = now.strftime("%m%d%Y%H%M%S-encrypted" + ext)
+  filename = now.strftime("%m-%d-%Y-%H-%M-%S" + ext)
 
   encrypt_image(input_path, filename, key, filename)
   key_hex_label.config(text=key.hex(), fg="black")
@@ -99,7 +99,7 @@ def decrypt():
   
   now = datetime.now()
   ext = pathlib.Path(input_path).suffix
-  filename = now.strftime("%m%d%Y%H%M%S-decrypted" + ext)
+  filename = now.strftime("%m-%d-%Y-%H-%M-%S" + ext)
   decrypt_image(input_path, filename, key, filename)
   info_label.config(text="Decryption complete.", fg="green")
 
