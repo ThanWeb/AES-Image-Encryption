@@ -26,7 +26,7 @@ def encrypt_image(input_path, output_path, key, filename):
   
   # Create a encryption folder
   original_folder, original_filename = os.path.split(filename)
-  encryption_folder = os.path.join(original_folder, "encrypted_" + original_filename.split('.')[0])
+  encryption_folder = os.path.join(original_folder, "encrypted")
   os.makedirs(encryption_folder, exist_ok=True)
 
   # Rename the file with the provided filename in the encryption folder
@@ -48,7 +48,7 @@ def decrypt_image(input_path, output_path, key, filename):
   
   # Create a decryption folder
   original_folder, original_filename = os.path.split(filename)
-  decryption_folder = os.path.join(original_folder, "decrypted_" + original_filename.split('.')[0])
+  decryption_folder = os.path.join(original_folder, "decrypted")
   os.makedirs(decryption_folder, exist_ok=True)
 
   # Rename the file with the provided filename in the decryption folder
