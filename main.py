@@ -2,7 +2,6 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from tkinter import *
 from tkinter import filedialog
-from PIL import Image
 from datetime import datetime
 import os
 import pyperclip
@@ -121,12 +120,14 @@ def decrypt():
     popup_notification("Decryption failed.", "red")
 
 def set_encryption_mode():
-  key_label.pack(side=TOP)
+  key_label_encrypt.pack(side=TOP)
+  key_label_decrypt.pack_forget()
   key_entry.pack(side=TOP)
   
   # Hapus elemen-elemen yang tidak dibutuhkan pada mode enkripsi
   filename_label.pack_forget()
   filename_entry.pack_forget()
+  browse_button.config(command=browse_decrypted_image, text="Browse Image")
   decrypt_button.pack_forget()
 
   if copy_key_button.winfo_exists():
@@ -136,6 +137,7 @@ def set_encryption_mode():
   browse_button.pack(side=TOP)
   info_label.pack(side=TOP)
   key_hex_label.pack(side=TOP)
+  key_entry.pack(side=TOP)
   entry.delete(0, END)  # Membersihkan kolom input file
   key_entry.delete(0, END)  # Membersihkan kolom input kunci
 
@@ -152,7 +154,8 @@ def set_decryption_mode():
   info_label.pack_forget()
   key_hex_label.pack_forget()
   copy_key_button.pack_forget()  # Menghapus tombol 'Copy Key'
-  key_label.pack(side=TOP)
+  key_label_encrypt.pack_forget()
+  key_label_decrypt.pack(side=TOP)
   key_entry.pack(side=TOP)
   decrypt_button.pack(side=TOP)
   entry.delete(0, END)  # Membersihkan kolom input file
@@ -195,13 +198,13 @@ filename_label = Label(root, text="Enter the output filename:", bg='lightblue', 
 
 filename_entry = Entry(root, bg='white', fg='black', width=40)
 
-key_label = Label(root, text="Enter the encryption key:", bg='lightblue', fg='black')
+key_label_encrypt = Label(root, text="Enter the encryption key:", bg='lightblue', fg='black')
 
 key_entry = Entry(root, bg='white', fg='black', width=40)
 
 encrypt_button = Button(root, text="Encrypt", command=encrypt, bg='green', fg='white')
 
-key_label = Label(root, text="Enter the decryption key:", bg='lightblue', fg='black')
+key_label_decrypt = Label(root, text="Enter the decryption key:", bg='lightblue', fg='black')
 
 key_entry = Entry(root, bg='white', fg='black', width=40)
 
